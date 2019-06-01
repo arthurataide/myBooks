@@ -20,9 +20,14 @@ class SearchPage extends Component {
       }
       else {
         const maxresults = 10;
-        BooksAPI.search(query, maxresults).then((books) => {
-          this.setState({books})
-        });
+        BooksAPI.search(query, maxresults).then(books => {
+          if(books.error){
+              this.setState({books: []})
+           }
+          else{
+              this.setState({ books });
+          }
+      	});    
       }
   }
 
@@ -39,7 +44,6 @@ render() {
       <div>
         {this.state.hasError ? (<h1>Something went wrong!</h1>) : (
           <div className="search-books">
-          {console.log(books)}
               <div className="search-books-bar">
                 <Link className='close-search' to='/'>Close</Link>
                 <div className="search-books-input-wrapper">
@@ -54,7 +58,7 @@ render() {
               </div>
               <div className="search-books-results">
                 <ol className="books-grid">
-                  {books.filter(book => book).map(book => (
+                  {books.map(book => (
                                   <li key={book.id}>
                                       <div className="book">
                                           <div className="book-top">
@@ -66,7 +70,7 @@ render() {
                                                       <option value="currentlyReading">Currently Reading</option>
                                                       <option value="wantToRead">Want to Read</option>
                                                       <option value="read">Read</option>
-                                                      <option value="none">None</option>
+                                                      <option value="">None</option>
                                                   </select>
                                               </div>
                                           </div>
