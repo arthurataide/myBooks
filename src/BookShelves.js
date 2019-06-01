@@ -4,9 +4,7 @@ import PropTypes from 'prop-types'
 class BookShelves extends Component {
     static propTypes = {
         books: PropTypes.array.isRequired,
-        onUpdateBookShelf: PropTypes.func.isRequired,
-      	thelf: PropTypes.string,
-      	title: ProTypes.string
+        onUpdateBookShelf: PropTypes.func.isRequired
       }
 
       handleClick = (e, book) =>{
@@ -17,13 +15,13 @@ class BookShelves extends Component {
        }
 
     render(){
-      	const {books, onUpdateBookShelf, Shelves} = this.props
+      	const {books, shelf, title} = this.props
 		return(
       		<div className="bookshelf">
-            	<h2 className="bookshelf-title">Currently Reading</h2>
+            	<h2 className="bookshelf-title">{title}</h2>
                   <div className="bookshelf-books">
                   <ol className="books-grid">
-                  {books.filter(book => book.shelf === "currentlyReading").map(book => (
+                  {books.filter(book => book.shelf === shelf).map(book => (
                                 <li key={book.id}>
                                     <div className="book">
                                         <div className="book-top">
