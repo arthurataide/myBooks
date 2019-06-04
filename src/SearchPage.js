@@ -15,20 +15,20 @@ class SearchPage extends Component {
 
   setShelvesOnSearchBook = (bSearch) => {
     	const { books } = this.props
-      	const result = Object.keys(bSearch).map((bookSearch) => {
-                          Object.keys(books).map((book) => {
-                              if(books[book]['id'] === bSearch[bookSearch]['id']){
-                                  bSearch[bookSearch]['shelf'] = books[book]['shelf']
-                              }
-                              else{
-                                  bSearch[bookSearch]['shelf'] = 'none'
-                              }
-                            return books
-                          })
-                        //console.log(bSearch[bookSearch]['shelf'])
-                        return bSearch
-                      })
-      	return result
+      	Object.keys(bSearch).map((bookSearch) => {
+        	Object.keys(books).map((book) => {
+            	if(books[book]['id'] === bSearch[bookSearch]['id']){
+                	bSearch[bookSearch]['shelf'] = books[book]['shelf']
+                }
+                else{
+                	bSearch[bookSearch]['shelf'] = 'none'
+                }
+            	return books
+            })
+            //console.log(bSearch[bookSearch]['shelf'])
+            return bSearch
+        })           
+      	return bSearch
   }
 
   updateQuery = (query) => {
@@ -44,6 +44,7 @@ class SearchPage extends Component {
            }
           else{
               const b = this.setShelvesOnSearchBook(bSearch);
+              console.log(b)
               this.setState({ booksSearch: b });
           }
       	});    
