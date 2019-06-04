@@ -10,36 +10,55 @@ class SearchPage extends Component {
 
  state = {
     query: '',
-    books: []
+    booksSearch: []
+  }
+
+  setShelvesOnSearchBook = (bSearch) => {
+    	const { books } = this.props
+      	const result = Object.keys(bSearch).map((bookSearch) => {
+                          Object.keys(books).map((book) => {
+                              if(books[book]['id'] === bSearch[bookSearch]['id']){
+                                  bSearch[bookSearch]['shelf'] = books[book]['shelf']
+                              }
+                              else{
+                                  bSearch[bookSearch]['shelf'] = 'none'
+                              }
+                            return books
+                          })
+                        //console.log(bSearch[bookSearch]['shelf'])
+                        return bSearch
+                      })
+      	return result
   }
 
   updateQuery = (query) => {
-      this.setState({ query: query })
+  		this.setState({ query: query })
       if(!query){
-        this.setState({books: []})
+        this.setState({booksSearch: []})
       }
       else {
         const maxresults = 10;
-        BooksAPI.search(query, maxresults).then(books => {
-          if(books.error){
-              this.setState({books: []})
+        BooksAPI.search(query, maxresults).then(bSearch => {
+          if(bSearch.error){
+              this.setState({booksSearch: []})
            }
           else{
-              this.setState({ books });
+              const b = this.setShelvesOnSearchBook(bSearch);
+              this.setState({ booksSearch: b });
           }
       	});    
       }
   }
 
-  handleClick = (e, book) =>{
+  handleClick = (e, booksSearch) =>{
       const {onUpdateBookShelf} = this.props;
       e.preventDefault();
       const value = e.target.value;
-      onUpdateBookShelf(book, value);
+      onUpdateBookShelf(booksSearch, value);
   }
 
 render() { 
-   	const { query, books } = this.state	
+   	const { query, booksSearch } = this.state	
 	return(
       <div>
         {this.state.hasError ? (<h1>Something went wrong!</h1>) : (
@@ -48,7 +67,7 @@ render() {
                 <Link className='close-search' to='/'>Close</Link>
                 <div className="search-books-input-wrapper">
                   <input
-                        className='search-contacts'
+                        className='search-books'
                         type='text'
                         placeholder='Search by title or author'
                         value={query}
@@ -58,24 +77,24 @@ render() {
               </div>
               <div className="search-books-results">
                 <ol className="books-grid">
-                  {books.map(book => (
-                                  <li key={book.id}>
+                  {booksSearch.map(booksSearch => (
+                                  <li key={booksSearch.id}>
                                       <div className="book">
                                           <div className="book-top">
                                               <div className="book-cover" style={{width: 128, height: 193, 
-                                                     backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
+                                                     backgroundImage: `url(${booksSearch.imageLinks.thumbnail})`}}></div>
                                               <div className="book-shelf-changer">
-                                                  <select value={book.shelf} onChange={(e) => this.handleClick(e, book)}>
+                                                  <select value={booksSearch.shelf} onChange={(e) => this.handleClick(e, booksSearch)}>
                                                       <option value="move" disabled>Choose the Status...</option>
                                                       <option value="currentlyReading">Currently Reading</option>
                                                       <option value="wantToRead">Want to Read</option>
                                                       <option value="read">Read</option>
-                                                      <option value="">None</option>
+                                                      <option value="none">None</option>
                                                   </select>
                                               </div>
                                           </div>
-                                          <div className="book-title">{book.title}</div>
-                                          <div className="book-authors">{book.authors}</div>
+                                          <div className="book-title">{booksSearch.title}</div>
+                                          <div className="book-authors">{booksSearch.authors}</div>
                                       </div>
                                   </li>  
                              ))}

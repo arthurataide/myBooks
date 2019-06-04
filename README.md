@@ -1,6 +1,6 @@
 # MyBooks Project
 
-This is **MyBooks**, 
+This is **MyBooks**, an Application that helps you organize your Books, by putting it in Shelves(Currently Reading, Want to Read and Read). You can move than between shelves and add more books by searching then.
 
 ## Installation
 
