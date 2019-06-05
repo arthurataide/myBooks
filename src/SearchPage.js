@@ -21,7 +21,9 @@ class SearchPage extends Component {
             	if(bookSearch.id === book.id){
                   	bookSearch.shelf = book.shelf
                 }
+              return true
             })
+          	return true
         })
       	return bSearch
   }
