@@ -48,11 +48,12 @@ class SearchPage extends Component {
       }
   }
 	bgImage = (image) => {
-		if(image){
+		if(image !== undefined){
       		return true
         }
       	else{
         	return false
+          
         }
 	} 
 
@@ -88,7 +89,7 @@ render() {
                                       <div className="book">
                                           <div className="book-top">
                                               <div className="book-cover" style={{width: 128, height: 193, 
-                                                     backgroundImage: `url(${ this.bgImage(booksSearch.imageLinks.thumbnail) ?  booksSearch.imageLinks.thumbnail : NoImage  })`}}></div>
+                                                     backgroundImage: `url(${ this.bgImage(booksSearch.imageLinks) ?   booksSearch.imageLinks.thumbnail : NoImage })`}}></div>
                                               <div className="book-shelf-changer">
                                                   <select value={booksSearch.shelf} onChange={(e) => this.handleClick(e, booksSearch)}>
                                                       <option value="move" disabled>Choose the Status...</option>
