@@ -15,6 +15,13 @@ class BooksApp extends React.Component {
         this.setState({ books })
       })
     }
+    backgroundImage = (image) => {
+    	if(image !== undefined){
+        	return true
+        }else{
+        	return false
+        }
+    } 
 
    	updateBook = (bookUpdate, shelf) =>{
       	BooksAPI.update(bookUpdate, shelf)
@@ -30,12 +37,14 @@ class BooksApp extends React.Component {
           <Route exact path='/' render={() => (
                 <ListBooks
                   books={this.state.books}
-                  onUpdateBookShelf={this.updateBook}/>
+                  onUpdateBookShelf={this.updateBook}
+				  backgroundHandle={this.backgroundImage}/>
               )}/>
           <Route path='/search' render={() => (
                	<Search
                 	books={this.state.books}
-                 	onUpdateBookShelf={this.updateBook}/>
+                 	onUpdateBookShelf={this.updateBook}
+					backgroundHandle={this.backgroundImage}/>
               )}/>
         </div>
     )

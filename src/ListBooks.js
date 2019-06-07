@@ -6,11 +6,12 @@ import { Link } from 'react-router-dom'
 class ListBooks extends Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
-    onUpdateBookShelf: PropTypes.func.isRequired
+    onUpdateBookShelf: PropTypes.func.isRequired,
+    backgroundHandle: PropTypes.func.isRequired
   }
 
   render() { 
-    const {books, onUpdateBookShelf} = this.props
+    const {books, onUpdateBookShelf, backgroundHandle} = this.props
     const shelves = {
           currentlyReading: ['Currently Reading', 'currentlyReading'],
           wantToRead: ['Want to Read', 'wantToRead'],
@@ -28,6 +29,7 @@ class ListBooks extends Component {
                         key={shelf}
 						books={ books }
                         onUpdateBookShelf={ onUpdateBookShelf }
+						backgroundHandle={ backgroundHandle }
                         shelf={shelves[shelf][1]}
                         title={shelves[shelf][0]}
                       />

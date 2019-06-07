@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import * as BooksAPI from './config/BooksAPI'
-import NoImage from './icons/noimage.png'
+import Book from './Book'
 
 class SearchPage extends Component {
  static propTypes = {
-    onUpdateBookShelf: PropTypes.func.isRequired
+    onUpdateBookShelf: PropTypes.func.isRequired,
+   	backgroundHandle: PropTypes.func.isRequired
   } 
 
  state = {
@@ -47,25 +48,10 @@ class SearchPage extends Component {
       	});    
       }
   }
-	bgImage = (image) => {
-		if(image !== undefined){
-      		return true
-        }
-      	else{
-        	return false
-          
-        }
-	} 
-
-  handleClick = (e, booksSearch) =>{
-      const {onUpdateBookShelf} = this.props;
-      e.preventDefault();
-      const value = e.target.value;
-      onUpdateBookShelf(booksSearch, value);
-  }
 
 render() { 
-   	const { query, booksSearch } = this.state	
+   	const { query, booksSearch} = this.state	
+	const {backgroundHandle, onUpdateBookShelf} = this.props
 	return(
       <div>
         {this.state.hasError ? (<h1>Something went wrong!</h1>) : (
@@ -83,29 +69,15 @@ render() {
                 </div>
               </div>
               <div className="search-books-results">
-                <ol className="books-grid">
-                  {booksSearch.map(booksSearch => (
-                                  <li key={booksSearch.id}>
-                                      <div className="book">
-                                          <div className="book-top">
-                                              <div className="book-cover" style={{width: 128, height: 193, 
-                                                     backgroundImage: `url(${ this.bgImage(booksSearch.imageLinks) ?   booksSearch.imageLinks.thumbnail : NoImage })`}}></div>
-                                              <div className="book-shelf-changer">
-                                                  <select value={booksSearch.shelf} onChange={(e) => this.handleClick(e, booksSearch)}>
-                                                      <option value="move" disabled>Choose the Status...</option>
-                                                      <option value="currentlyReading">Currently Reading</option>
-                                                      <option value="wantToRead">Want to Read</option>
-                                                      <option value="read">Read</option>
-                                                      <option value="none">None</option>
-                                                  </select>
-                                              </div>
-                                          </div>
-                                          <div className="book-title">{booksSearch.title}</div>
-                                          <div className="book-authors">{booksSearch.authors}</div>
-                                      </div>
-                                  </li>  
-                             ))}
-                      </ol>
+              	<ol className="books-grid">
+                	{booksSearch.map(booksSearch => (
+                     <Book 
+                      key={booksSearch.id}
+                      bookObject={booksSearch}
+                      onUpdateBookShelf={onUpdateBookShelf}
+                      backgroundHandle={backgroundHandle}/>             
+                  	))}
+                </ol>
               </div>
             </div>
               )}
