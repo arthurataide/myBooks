@@ -1,22 +1,23 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import * as BooksAPI from './config/BooksAPI'
 import ListBooks from './ListBooks'
 import Search from './SearchPage'
+import ErrorPage from './ErrorPage'
 import './App.css'
+
 
 class BooksApp extends React.Component {
   state = {
-    books: [],
-    hasError: false
+    books: []
   }
   	componentDidMount() {
       BooksAPI.getAll().then((books) => {
         this.setState({ books })
       })
     }
-    backgroundImage = (image) => {
-    	if(image !== undefined){
+    errorHandle = (error) => {
+    	if(error !== undefined){
         	return true
         }else{
         	return false
@@ -34,18 +35,25 @@ class BooksApp extends React.Component {
   render() {
     return (
         <div>
-          <Route exact path='/' render={() => (
-                <ListBooks
-                  books={this.state.books}
-                  onUpdateBookShelf={this.updateBook}
-				  backgroundHandle={this.backgroundImage}/>
-              )}/>
-          <Route path='/search' render={() => (
-               	<Search
-                	books={this.state.books}
-                 	onUpdateBookShelf={this.updateBook}
-					backgroundHandle={this.backgroundImage}/>
-              )}/>
+         <Router>
+             <Switch>
+                <Route exact path='/' render={() => (
+                      <ListBooks
+                        books={this.state.books}
+                        onUpdateBookShelf={this.updateBook}
+                        undefinedErrorHandle={this.errorHandle}/>
+                    )}/>
+                <Route path='/search' render={() => (
+                      <Search
+                          books={this.state.books}
+                          onUpdateBookShelf={this.updateBook}
+                          undefinedErrorHandle={this.errorHandle}/>
+                    )}/>
+				<Route render={() => (
+                  		<ErrorPage/>
+                	)}/>
+              </Switch>
+			</Router>
         </div>
     )
   }

@@ -4,9 +4,9 @@ import NoImage from './icons/noimage.png'
 
 class Book extends Component {
   static propTypes = {
-        bookObject: PropTypes.array.isRequired,
+        bookObject: PropTypes.object.isRequired,
         onUpdateBookShelf: PropTypes.func.isRequired,
-      	backgroundHandle: PropTypes.func.isRequired
+      	undefinedErrorHandle: PropTypes.func.isRequired
       }
   handleClick = (e, book) =>{
         const {onUpdateBookShelf} = this.props;
@@ -16,13 +16,13 @@ class Book extends Component {
     }
 
   render(){
-    const {bookObject, backgroundHandle} = this.props
+    const {bookObject, undefinedErrorHandle} = this.props
     return (
 		<li key={bookObject.id}>
         	<div className="book">
             	<div className="book-top">
                   <div className="book-cover" style={{width: 128, height: 193, 
-                  backgroundImage: `url(${ backgroundHandle(bookObject.imageLinks) ? bookObject.imageLinks.thumbnail : NoImage })`}}></div>
+                  backgroundImage: `url(${ undefinedErrorHandle(bookObject.imageLinks) ? bookObject.imageLinks.thumbnail : NoImage })`}}></div>
                   <div className="book-shelf-changer">
                       <select value={bookObject.shelf} onChange={(e) => this.handleClick(e, bookObject)}>
                           <option value="move" disabled>Choose the Status...</option>
@@ -34,7 +34,7 @@ class Book extends Component {
                   </div>
                 </div>
                 <div className="book-title">{bookObject.title}</div>
-                <div className="book-authors">{bookObject.authors.join(', ')}</div>
+                <div className="book-authors">{undefinedErrorHandle(bookObject.authors) ? bookObject.authors.join(', ') : bookObject.authors}</div>
            </div>
        </li>
 	)

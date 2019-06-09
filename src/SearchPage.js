@@ -7,7 +7,7 @@ import Book from './Book'
 class SearchPage extends Component {
  static propTypes = {
     onUpdateBookShelf: PropTypes.func.isRequired,
-   	backgroundHandle: PropTypes.func.isRequired
+   	undefinedErrorHandle: PropTypes.func.isRequired
   } 
 
  state = {
@@ -31,7 +31,7 @@ class SearchPage extends Component {
   }
 
   updateQuery = (query) => {
-  		this.setState({ query: query })
+  	this.setState({ query: query })
       if(!query){
         this.setState({booksSearch: []})
       }
@@ -51,7 +51,7 @@ class SearchPage extends Component {
 
 render() { 
    	const { query, booksSearch} = this.state	
-	const {backgroundHandle, onUpdateBookShelf} = this.props
+	const {undefinedErrorHandle, onUpdateBookShelf} = this.props
 	return(
       <div>
         {this.state.hasError ? (<h1>Something went wrong!</h1>) : (
@@ -75,7 +75,7 @@ render() {
                       key={booksSearch.id}
                       bookObject={booksSearch}
                       onUpdateBookShelf={onUpdateBookShelf}
-                      backgroundHandle={backgroundHandle}/>             
+                      undefinedErrorHandle={undefinedErrorHandle}/>             
                   	))}
                 </ol>
               </div>

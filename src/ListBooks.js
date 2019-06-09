@@ -7,11 +7,11 @@ class ListBooks extends Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
     onUpdateBookShelf: PropTypes.func.isRequired,
-    backgroundHandle: PropTypes.func.isRequired
+    undefinedErrorHandle: PropTypes.func.isRequired
   }
 
   render() { 
-    const {books, onUpdateBookShelf, backgroundHandle} = this.props
+    const {books, onUpdateBookShelf, undefinedErrorHandle} = this.props
     const shelves = {
           currentlyReading: ['Currently Reading', 'currentlyReading'],
           wantToRead: ['Want to Read', 'wantToRead'],
@@ -29,7 +29,7 @@ class ListBooks extends Component {
                         key={shelf}
 						books={ books }
                         onUpdateBookShelf={ onUpdateBookShelf }
-						backgroundHandle={ backgroundHandle }
+						undefinedErrorHandle={ undefinedErrorHandle }
                         shelf={shelves[shelf][1]}
                         title={shelves[shelf][0]}
                       />
